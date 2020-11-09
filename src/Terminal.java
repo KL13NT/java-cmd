@@ -1,5 +1,7 @@
 import java.util.*;
 import java.io.*;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 public class Terminal {
 	// public void cp(String sourcePath, String destinationPath);
@@ -31,6 +33,11 @@ public class Terminal {
 		scan.close();
 	}
 
+	public void date(){
+			LocalDateTime datetime=LocalDateTime.now();
+			DateTimeFormatter format=DateTimeFormatter.ofPattern("HH:mm:ss yyyy/MM/dd");
+			System.out.println(format.format(datetime));
+	}
 	public static void main(String[] args) throws Exception {
 		System.out.println("Hello, World!");
 	}

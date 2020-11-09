@@ -6,7 +6,10 @@ public class Terminal {
 
 	// public void mv(String sourcePath, String destinationPath);
 
-	// public void rm(String sourcePath);
+	public void rm(String sourcePath){
+		File file=new File(sourcePath);
+		file.delete();
+	}
 
 	public  void pwd(){
 		System.out.println(System.getProperty("user.dir"));

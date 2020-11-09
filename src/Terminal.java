@@ -8,7 +8,9 @@ public class Terminal {
 
 	// public void rm(String sourcePath);
 
-	// public void pwd();
+	public  void pwd(){
+		System.out.println(System.getProperty("user.dir"));
+	}
 
 	public void cat(String[] paths) throws FileNotFoundException {
 		File object;

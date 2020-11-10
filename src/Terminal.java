@@ -1,5 +1,6 @@
 import java.util.*;
 import java.io.*;
+import java.nio.file.FileAlreadyExistsException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
@@ -44,6 +45,31 @@ public class Terminal {
 		LocalDateTime datetime = LocalDateTime.now();
 		DateTimeFormatter format = DateTimeFormatter.ofPattern("HH:mm:ss yyyy/MM/dd");
 		System.out.println(format.format(datetime));
+	}
+
+	public void mkdir(String Path) {
+		// if name is provided then name the dir
+		try {
+			File Parentdir;
+			if (Utils.isAbsolutePath(Path)) {
+				// this is absolutepath
+				Parentdir = new File(Path);
+			} else // is relative path, so create dir in working directory
+				Parentdir = new File(System.getProperty("user.dir") + "/" + Path);
+			// check if this Folder already exist
+			if (Parentdir.exists())
+				throw new FileAlreadyExistsException("");
+			Parentdir.mkdir();
+		} catch (FileAlreadyExistsException e) {
+			System.out.println("File already exist with same name");
+		}
+	}
+
+	public void rmdir(String Path) {
+		if(!Utils.isAbsolutePath(Path))
+			Path = System.getProperty("user.dir") + "/" + Path;
+		File file = new File(Path);
+		file.delete();
 	}
 
 	public static void main(String[] args) throws Exception {

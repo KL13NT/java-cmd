@@ -4,11 +4,12 @@ import java.util.Scanner;
 import java.util.Stack;
 
 public class App {
-	static String pwd = System.getProperty("user.dir");
+	public static String pwd = System.getProperty("user.dir");
 
 	public static void main(String[] args) {
+		System.out.println("OS-CLI!");
+
 		Scanner scan = new Scanner(System.in);
-		System.out.println("Welcome to os-cli!");
 
 		while (true) {
 			System.out.print("\nOS-CLI | " + System.getProperty("user.dir") + ">");
@@ -18,8 +19,7 @@ public class App {
 					continue;
 
 				String input = scan.nextLine();
-
-				Stack<Node> tree = Parser.parse(input); // tree of all nodes
+				Stack<Node> tree = Parser.parse(input);
 				Iterator<Node> it = tree.iterator();
 				Stack<String> results = new Stack<>();
 
@@ -30,6 +30,12 @@ public class App {
 
 					if (current.type.equals("GENERIC")) {
 						String command = current.val;
+
+						if (command.equalsIgnoreCase("EXIT")) {
+							scan.close();
+							return;
+						}
+
 						ArrayList<String> params = new ArrayList<>();
 
 						while (it.hasNext()) {
@@ -66,18 +72,14 @@ public class App {
 							System.out.println("SHOULD PIPE");
 							shouldPipe = true;
 						} else if (token.equals(">")) {
-							System.out.println("REDIRECT");
 							String path = it.next().val;
 
 							Utils.saveToFile(results.peek(), path);
 						}
 					}
 				}
-				System.out.println("DONE");
 			} catch (Exception e) {
 				System.out.println(e.getMessage());
-				System.out.println(e);
-				System.out.println(e.getStackTrace());
 			}
 		}
 

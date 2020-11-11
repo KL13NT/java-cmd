@@ -37,9 +37,6 @@ public class Terminal {
 				scan = new Scanner(object);
 				while (scan.hasNextLine()) {
 					System.out.println(scan.nextLine());
-					// No new lines
-					// System.out.print(scan.nextLine());
-	
 				}
 			}
 			scan.close();

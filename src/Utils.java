@@ -6,12 +6,27 @@ import java.io.IOException;
 public class Utils {
 	// All methods here should be public static. Return types are up to you.
 
-	public static void saveToFile(String data, String path) throws IOException {
-		new File(path).createNewFile();
+	public static void writeFile(String data, String path) throws IOException {
+		File file = new File(path);
+		file.createNewFile();
 
-		BufferedWriter writer = new BufferedWriter(new FileWriter(path));
-		writer.write(data);
+		FileWriter fr = new FileWriter(file, false);
+		BufferedWriter br = new BufferedWriter(fr);
 
-		writer.close();
+		br.write(data);
+
+		br.close();
+		fr.close();
+	}
+
+	public static void appendFile(String data, String path) throws IOException {
+		File file = new File(path);
+		FileWriter fr = new FileWriter(file, true);
+		BufferedWriter br = new BufferedWriter(fr);
+
+		br.write(data);
+
+		br.close();
+		fr.close();
 	}
 }

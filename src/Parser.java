@@ -36,17 +36,23 @@ public class Parser {
 				}
 
 				case '>': {
+					Boolean isAppend = false;
+
+					if (input.charAt(i + 1) == '>') {
+						isAppend = true;
+						i += 1;
+					}
+
 					if (tree.empty() || !tree.peek().type.equals("GENERIC"))
 						throw new LocatedException("Must supply command or other redirect", input, i);
 
 					if (word.length() > 0)
 						tree.push(new Node("GENERIC", word));
 
-					if (input.charAt(i - 1) == '>')
-						continue; // skips second >
-
 					word = "";
-					tree.push(new Node("TOKEN", ">"));
+
+					Node node = new Node("TOKEN", isAppend ? ">>" : ">");
+					tree.push(node);
 
 					break;
 				}

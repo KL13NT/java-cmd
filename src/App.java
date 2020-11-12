@@ -68,18 +68,27 @@ public class App {
 					if (current.type.equalsIgnoreCase("TOKEN")) {
 						String token = current.val;
 
+						System.out.println(results);
+						System.out.println(tree);
+
 						if (token.equals("|")) {
-							System.out.println("SHOULD PIPE");
 							shouldPipe = true;
 						} else if (token.equals(">")) {
 							String path = it.next().val;
 
-							Utils.saveToFile(results.peek(), path);
+							Utils.writeFile(results.peek(), path);
+						} else if (token.equals(">>")) {
+							String path = it.next().val;
+
+							Utils.appendFile(results.peek(), path);
 						}
 					}
 				}
 			} catch (Exception e) {
-				System.out.println(e.getMessage());
+				if (e.getMessage() != null)
+					System.out.println(e.getMessage());
+				else
+					System.out.println(e);
 			}
 		}
 

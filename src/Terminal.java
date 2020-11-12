@@ -8,87 +8,75 @@ public class Terminal {
 	// public void cp(String sourcePath, String destinationPath);
 
 	// public void mv(String sourcePath, String destinationPath);
-	public void ls(ArrayList<String> path) {
+	public String[] ls(ArrayList<String> path) {
 		File CurrentDir;
 		if (path.isEmpty())
-			CurrentDir = new File(System.getProperty("user.dir")); //Working directory 
+			CurrentDir = new File(App.pwd); // Working directory
 		else
-			CurrentDir = new File(path.get(0)); //specific path 
+			CurrentDir = new File(path.get(0)); // specific path
 		String files[] = CurrentDir.list();
 		for (int i = 0; i < files.length; i++)
 			System.out.println(files[i]);
+		return files;
 	}
 
 	public void rm(ArrayList<String> args) throws Exception {
 		if (args.size() < 1)
 			throw new Exception("Must supply 1 parameter");
-		else {
-			File file = new File(args.get(0));
-			file.delete();
-		}
+		File file = new File(args.get(0));
+		file.delete();
 	}
 
-	public void pwd() {
-		System.out.println(System.getProperty("user.dir"));
+	public String pwd(ArrayList<String> args) {
+		System.out.println(App.pwd);
+		return App.pwd;
 	}
 
-	public void cat(ArrayList<String> paths) throws Exception {
+	public String cat(ArrayList<String> paths) throws Exception {
 		if (paths.size() < 1)
 			throw new Exception("Must provide 1 parameter");
-		else {
-			File object;
-			Scanner scan = null;
-			for (int i = 0; i < paths.size(); i++) {
-				object = new File(paths.get(i));
-				scan = new Scanner(object);
-				while (scan.hasNextLine()) {
-					System.out.println(scan.nextLine());
-				}
+		File object;
+		String output="";
+		Scanner scan = null;
+		for (int i = 0; i < paths.size(); i++) {
+			object = new File(paths.get(i));
+			scan = new Scanner(object);
+			while (scan.hasNextLine()) {
+				output+=scan.nextLine();
 			}
-			scan.close();
 		}
+		System.out.println(output);
+		scan.close();
+		return output;
 	}
 
-	public void date() {
-
+	public String date(ArrayList<String> args) {
 		LocalDateTime datetime = LocalDateTime.now();
 		DateTimeFormatter format = DateTimeFormatter.ofPattern("HH:mm:ss yyyy/MM/dd");
 		System.out.println(format.format(datetime));
+		return format.format(datetime);
 	}
 
-	public void mkdir(ArrayList<String> Path) throws Exception {
+	public void mkdir(ArrayList<String> paths) throws Exception {
 		// if name is provided then name the dir
 		try {
-			if (Path.size() < 1)
+			if (paths.size() < 1)
 				throw new Exception("Must supply 1 parameter");
-			else {
-				File Parentdir;
-				if (Utils.isAbsolutePath(Path.get(0))) {
-					// this is absolutepath
-					Parentdir = new File(Path.get(0));
-				} else // is relative path, so create dir in working directory
-					Parentdir = new File(System.getProperty("user.dir") + "/" + Path);
-				// check if this Folder already exist
-				if (Parentdir.exists())
-					throw new FileAlreadyExistsException("");
-				Parentdir.mkdir();
-			}
+			File Parentdir = new File(App.pwd, paths.get(0));
+			// check if this Folder already exist
+			if (Parentdir.exists())
+				throw new FileAlreadyExistsException("");
+			Parentdir.mkdir();
 		} catch (FileAlreadyExistsException e) {
 			System.out.println("File already exist with same name");
 		}
-
 	}
 
-	public void rmdir(ArrayList<String> Path) throws Exception {
-		if (Path.size() < 1)
+	public void rmdir(ArrayList<String> paths) throws Exception {
+		if (paths.size() < 1)
 			throw new Exception("Must supply 1 parameter");
-		else {
-			if (!Utils.isAbsolutePath(Path.get(0)))
-				Path.set(0, System.getProperty("user.dir") + "/" + Path.get(0));
-			File file = new File(Path.get(0));
-			file.delete();
-		}
-
+		File file = new File(App.pwd, paths.get(0));
+		file.delete();
 	}
 
 	public static void main(String[] args) throws Exception {

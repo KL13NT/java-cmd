@@ -8,18 +8,23 @@ public class Terminal {
 	// public void cp(String sourcePath, String destinationPath);
 
 	// public void mv(String sourcePath, String destinationPath);
-	public void ls() {
-		File CurrentDir = new File(System.getProperty("user.dir"));
+	public void ls(ArrayList<String> path) {
+		File CurrentDir;
+		if (path.isEmpty())
+			CurrentDir = new File(System.getProperty("user.dir")); //Working directory 
+		else
+			CurrentDir = new File(path.get(0)); //specific path 
 		String files[] = CurrentDir.list();
 		for (int i = 0; i < files.length; i++)
 			System.out.println(files[i]);
 	}
 
-	public void rm(ArrayList<String> args)throws Exception{
-		if(args.size()<1) throw new Exception("Must supply 1 parameter");
-		else{
-		File file = new File(args.get(0));
-		file.delete();
+	public void rm(ArrayList<String> args) throws Exception {
+		if (args.size() < 1)
+			throw new Exception("Must supply 1 parameter");
+		else {
+			File file = new File(args.get(0));
+			file.delete();
 		}
 	}
 
@@ -28,8 +33,9 @@ public class Terminal {
 	}
 
 	public void cat(ArrayList<String> paths) throws Exception {
-		if(paths.size()<1)throw new Exception("Must provide 1 parameter");
-		else{
+		if (paths.size() < 1)
+			throw new Exception("Must provide 1 parameter");
+		else {
 			File object;
 			Scanner scan = null;
 			for (int i = 0; i < paths.size(); i++) {
@@ -50,7 +56,7 @@ public class Terminal {
 		System.out.println(format.format(datetime));
 	}
 
-	public void mkdir(ArrayList<String> Path) throws Exception{
+	public void mkdir(ArrayList<String> Path) throws Exception {
 		// if name is provided then name the dir
 		try {
 			if (Path.size() < 1)
@@ -75,14 +81,14 @@ public class Terminal {
 
 	public void rmdir(ArrayList<String> Path) throws Exception {
 		if (Path.size() < 1)
-				throw new Exception("Must supply 1 parameter");
-				else{	
-					if (!Utils.isAbsolutePath(Path.get(0)))
-					Path.set(0,System.getProperty("user.dir") + "/" + Path.get(0));
-				File file = new File(Path.get(0));
-				file.delete();
-			}
-	
+			throw new Exception("Must supply 1 parameter");
+		else {
+			if (!Utils.isAbsolutePath(Path.get(0)))
+				Path.set(0, System.getProperty("user.dir") + "/" + Path.get(0));
+			File file = new File(Path.get(0));
+			file.delete();
+		}
+
 	}
 
 	public static void main(String[] args) throws Exception {

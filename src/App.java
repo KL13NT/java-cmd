@@ -55,8 +55,32 @@ public class App {
 						}
 
 						switch (command) {
+							case "ls": {
+								results.push(Terminal.ls(currentParams));
+								break;
+							}
+							case "rm": {
+								results.push(Terminal.rm(currentParams));
+								break;
+							}
 							case "pwd": {
 								results.push(Terminal.pwd(currentParams));
+								break;
+							}
+							case "cat": {
+								results.push(Terminal.cat(currentParams));
+								break;
+							}
+							case "date": {
+								results.push(Terminal.date(currentParams));
+								break;
+							}
+							case "mkdir": {
+								results.push(Terminal.mkdir(currentParams));
+								break;
+							}
+							case "rmdir": {
+								results.push(Terminal.rmdir(currentParams));
 								break;
 							}
 							default: {

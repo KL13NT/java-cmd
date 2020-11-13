@@ -5,7 +5,7 @@ public class LocatedException extends Exception {
 		String error = "Parser Exception at index " + index + "\n";
 		error += message + "\n\n";
 		error += input + "\n";
-		error += " ".repeat(index - 1) + "^";
+		error += " ".repeat(index) + "^";
 
 		return error;
 	}

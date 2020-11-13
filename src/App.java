@@ -12,7 +12,7 @@ public class App {
 		Scanner scan = new Scanner(System.in);
 
 		while (true) {
-			System.out.print("\nOS-CLI | " + System.getProperty("user.dir") + ">");
+			System.out.print("\nOS-CLI | " + pwd + ">");
 
 			try {
 				if (!scan.hasNextLine())

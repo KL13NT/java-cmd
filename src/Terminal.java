@@ -74,7 +74,7 @@ public class Terminal {
 			scan = new Scanner(file);
 
 			while (scan.hasNextLine())
-				output += scan.nextLine();
+				output += scan.nextLine() + "\n";
 		}
 
 		System.out.println(output);

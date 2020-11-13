@@ -6,7 +6,7 @@ public class Parser {
 		String word = "";
 
 		if ((input.charAt(0) == '|' || input.charAt(0) == '>'))
-			throw new LocatedException("You must supply a command first", input, 1);
+			throw new LocatedException("You must supply a command first", input, 0);
 
 		for (int i = 0; i < input.length(); i++) {
 			char c = input.charAt(i);

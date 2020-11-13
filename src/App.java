@@ -1,12 +1,27 @@
+import java.util.Scanner;
+import java.util.Stack;
+
 public class App {
+
 	public static void main(String[] args) {
-		try {
-			System.out.println("Hello");
+		Scanner scan = new Scanner(System.in);
+		System.out.println("Welcome to os-cli!");
 
-			// Invoking commands can be done using reflection
+		while (true) {
+			try {
+				if (!scan.hasNextLine())
+					continue;
 
-		} catch (Exception e) {
-			System.out.println(e);
+				String input = scan.nextLine();
+
+				Stack<Node> tree = Parser.parse(input); // tree of all nodes
+
+				// Invoking commands can be done using reflection
+
+			} catch (Exception e) {
+				System.out.println(e);
+			}
 		}
+
 	}
 }

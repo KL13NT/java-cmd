@@ -83,6 +83,18 @@ public class App {
 								results.push(Terminal.rmdir(currentParams));
 								break;
 							}
+							case "cp": {
+								results.push(Terminal.cp(currentParams));
+								break;
+							}
+							case "mv": {
+								results.push(Terminal.mv(currentParams));
+								break;
+							}
+							case "cd": {
+								results.push(Terminal.cd(currentParams));
+								break;
+							}
 							default: {
 								throw new Exception("'" + command + "'" + " is not recognized as a command,");
 							}

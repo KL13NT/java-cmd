@@ -1,85 +1,98 @@
-import java.util.*;
-import java.io.*;
+import java.io.File;
 import java.nio.file.FileAlreadyExistsException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.Scanner;
 
 public class Terminal {
-	// public void cp(String sourcePath, String destinationPath);
-
-	// public void mv(String sourcePath, String destinationPath);
-	public String[] ls(ArrayList<String> path) {
+	public static String ls(ArrayList<String> args) {
 		File CurrentDir;
-		if (path.isEmpty())
-			CurrentDir = new File(App.pwd); // Working directory
+
+		if (args.isEmpty())
+			CurrentDir = new File(App.pwd);
+
 		else
-			CurrentDir = new File(path.get(0)); // specific path
+			CurrentDir = new File(args.get(0));
+
 		String files[] = CurrentDir.list();
-		for (int i = 0; i < files.length; i++)
+		String filesString = "";
+
+		for (int i = 0; i < files.length; i++) {
 			System.out.println(files[i]);
-		return files;
+			filesString += files[i] + "\n";
+		}
+
+		return filesString;
 	}
 
-	public void rm(ArrayList<String> args) throws Exception {
+	public static String rm(ArrayList<String> args) throws Exception {
 		if (args.size() < 1)
-			throw new Exception("Must supply 1 parameter");
+			throw new Exception("Must supply at least 1 parameter");
+
 		File file = new File(args.get(0));
 		file.delete();
+
+		return "";
 	}
 
-	public String pwd(ArrayList<String> args) {
+	public static String pwd(ArrayList<String> args) {
 		System.out.println(App.pwd);
+
 		return App.pwd;
 	}
 
-	public String cat(ArrayList<String> paths) throws Exception {
-		if (paths.size() < 1)
-			throw new Exception("Must provide 1 parameter");
-		File object;
-		String output="";
+	public static String cat(ArrayList<String> args) throws Exception {
+		if (args.size() < 1)
+			throw new Exception("Must supply at least 1 parameter");
+
+		File file;
+		String output = "";
 		Scanner scan = null;
-		for (int i = 0; i < paths.size(); i++) {
-			object = new File(paths.get(i));
-			scan = new Scanner(object);
-			while (scan.hasNextLine()) {
-				output+=scan.nextLine();
-			}
+
+		for (int i = 0; i < args.size(); i++) {
+			file = new File(args.get(i));
+			scan = new Scanner(file);
+
+			while (scan.hasNextLine())
+				output += scan.nextLine();
 		}
+
 		System.out.println(output);
+
 		scan.close();
 		return output;
 	}
 
-	public String date(ArrayList<String> args) {
+	public static String date(ArrayList<String> args) {
 		LocalDateTime datetime = LocalDateTime.now();
 		DateTimeFormatter format = DateTimeFormatter.ofPattern("HH:mm:ss yyyy/MM/dd");
+
 		System.out.println(format.format(datetime));
+
 		return format.format(datetime);
 	}
 
-	public void mkdir(ArrayList<String> paths) throws Exception {
-		// if name is provided then name the dir
-		try {
-			if (paths.size() < 1)
-				throw new Exception("Must supply 1 parameter");
-			File Parentdir = new File(App.pwd, paths.get(0));
-			// check if this Folder already exist
-			if (Parentdir.exists())
-				throw new FileAlreadyExistsException("");
-			Parentdir.mkdir();
-		} catch (FileAlreadyExistsException e) {
-			System.out.println("File already exist with same name");
-		}
+	public static String mkdir(ArrayList<String> args) throws Exception {
+		if (args.size() < 1)
+			throw new Exception("Must supply at least 1 parameter");
+
+		File Parentdir = new File(App.pwd, args.get(0));
+
+		if (Parentdir.exists())
+			throw new FileAlreadyExistsException("File already exist with same name");
+
+		Parentdir.mkdir();
+		return "";
 	}
 
-	public void rmdir(ArrayList<String> paths) throws Exception {
-		if (paths.size() < 1)
-			throw new Exception("Must supply 1 parameter");
-		File file = new File(App.pwd, paths.get(0));
+	public static String rmdir(ArrayList<String> args) throws Exception {
+		if (args.size() < 1)
+			throw new Exception("Must supply at least 1 parameter");
+
+		File file = new File(App.pwd, args.get(0));
 		file.delete();
-	}
 
-	public static void main(String[] args) throws Exception {
-		System.out.println("Hello, World!");
+		return "";
 	}
 }

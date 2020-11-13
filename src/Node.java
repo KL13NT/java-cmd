@@ -1,19 +1,14 @@
-import java.util.ArrayList;
-
 public class Node {
-	String type = "";
-	ArrayList<String> params = new ArrayList<>();
+	public String type = ""; // TOKEN | GENERIC
+	public String val = "";
 
-	Node(String type, ArrayList<String> params) {
-
-		System.out.println(params);
-		this.params = params;
+	Node(String type, String val)  {
+		this.val = val;
 		this.type = type;
 	}
 
 	@Override
 	public String toString() {
-		return "Type is " + this.type + "\nParams are " + this.params;
+		return this.type + "+" + this.val;
 	}
-
 }

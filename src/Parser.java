@@ -1,12 +1,72 @@
+import java.util.Stack;
+
 public class Parser {
-	String[] args;// Will be filled by arguments extracted by parse method
-	String cmd;// Will be filled by the command extracted by parse method
+	public static Stack<Node> parse(String input) throws Exception {
+		Stack<Node> tree = new Stack<>();
+		String word = "";
 
-	/*** Return: true if it was able to parse user input correctly. Otherwise false* Parameter input: user command * In case of success, it should save the extracted command and arguments to args and cmd variables* It should also print error messages in case of too few arguments for a commands* eg. “cp requires 2 arguments”*/
+		if ((input.charAt(0) == '|' || input.charAt(0) == '>'))
+			throw new LocatedException("You must supply a command first", input, 0);
 
-	// public boolean parse(String input);
+		for (int i = 0; i < input.length(); i++) {
+			char c = input.charAt(i);
 
-	// public String getCmd();
+			switch (c) {
+				case ' ': {
+					if (word.length() == 0 || (i > 0 && input.charAt(i - 1) == ' '))
+						continue;
 
-	// public String[] getArguments();
+					tree.push(new Node("GENERIC", word));
+					word = "";
+
+					break;
+				}
+
+				case '|': {
+					if (tree.empty() || tree.peek().val.equals("|"))
+						throw new LocatedException("Must supply command", input, i);
+
+					if (word.length() > 0)
+						tree.push(new Node("GENERIC", word));
+
+					tree.push(new Node("TOKEN", "|"));
+
+					word = "";
+					break;
+				}
+
+				case '>': {
+					Boolean isAppend = false;
+
+					if (input.charAt(i + 1) == '>') {
+						isAppend = true;
+						i += 1;
+					}
+
+					if (tree.empty() || !tree.peek().type.equals("GENERIC"))
+						throw new LocatedException("Must supply command or other redirect", input, i);
+
+					if (word.length() > 0)
+						tree.push(new Node("GENERIC", word));
+
+					word = "";
+
+					Node node = new Node("TOKEN", isAppend ? ">>" : ">");
+					tree.push(node);
+
+					break;
+				}
+
+				default: {
+					word += c;
+
+					if (i == input.length() - 1)
+						tree.push(new Node("GENERIC", word));
+
+				}
+			}
+		}
+
+		return tree;
+	}
 }

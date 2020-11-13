@@ -1,66 +1,78 @@
-import java.util.ArrayList;
 import java.util.Stack;
 
 public class Parser {
 	public static Stack<Node> parse(String input) throws Exception {
 		Stack<Node> tree = new Stack<>();
-
 		String word = "";
-		ArrayList<String> current = new ArrayList<>();
+
+		if ((input.charAt(0) == '|' || input.charAt(0) == '>'))
+			throw new LocatedException("You must supply a command first", input, 1);
 
 		for (int i = 0; i < input.length(); i++) {
 			char c = input.charAt(i);
 
-			if (c == ' ') {
-				if (word.length() == 0)
-					continue;
+			switch (c) {
+				case ' ': {
+					if (word.length() == 0 || (i > 0 && input.charAt(i - 1) == ' '))
+						continue;
 
-				current.add(word);
-				word = "";
+					tree.push(new Node("GENERIC", word));
+					word = "";
 
-			}
-
-			else if (c == '|') {
-				if (word.length() > 0 || current.size() > 0) {
-					if (word.length() > 0)
-						current.add(word);
-
-					tree.push(new Node("command", current));
+					break;
 				}
 
-				current.clear();
-				word = "";
+				case '|': {
+					if (tree.empty() || tree.peek().val.equals("|"))
+						throw new LocatedException("Must supply command", input, i);
+
+					if (word.length() > 0)
+						tree.push(new Node("GENERIC", word));
+
+					tree.push(new Node("TOKEN", "|"));
+
+					word = "";
+					break;
+				}
+
+				case '>': {
+					Boolean isAppend = false;
+
+					if (input.charAt(i + 1) == '>') {
+						isAppend = true;
+						i += 1;
+					}
+
+					if (tree.empty() || !tree.peek().type.equals("GENERIC"))
+						throw new LocatedException("Must supply command or other redirect", input, i);
+
+					if (word.length() > 0)
+						tree.push(new Node("GENERIC", word));
+
+					word = "";
+
+					Node node = new Node("TOKEN", isAppend ? ">>" : ">");
+					tree.push(node);
+
+					break;
+				}
+
+				default: {
+					word += c;
+
+					if (i == input.length() - 1)
+						tree.push(new Node("GENERIC", word));
+
+				}
 			}
-
-			// else if (c == '>') {
-			// 	if (input.charAt(i - 1) == '>')
-			// 		continue; // skips second >
-
-			// 	current.add(input.substring(i, input.length() - 1));
-			// 	tree.push(new Node("redirect", current));
-
-			// 	current.clear();
-			// 	word = "";
-
-			// 	break;
-			// }
-
-			else
-				word += c;
 		}
-
-		current.add(word);
-		tree.push(new Node("command", current));
 
 		return tree;
 	}
 }
 
-
 /**
- * Test cases
- * command p1 p2 p3 ... [DONE]
- * command p1 p2 p3 | command p1 p2 p3 [DONE]
- * command p1 p2 p3 > path path path path
- * command p1 p2 p3 >> path path path path
+ * Test cases command p1 p2 p3 ... [DONE] command p1 p2 p3 | command p1 p2 p3
+ * [DONE] command p1 p2 p3 > path path path path [DONE] command p1 p2 p3 >> path
+ * path path path
  */

@@ -5,11 +5,10 @@ import java.util.Stack;
 
 public class App {
 	public static String pwd = System.getProperty("user.dir");
+	public static Scanner scan = new Scanner(System.in);
 
 	public static void main(String[] args) {
 		System.out.println("OS-CLI!");
-
-		Scanner scan = new Scanner(System.in);
 
 		while (true) {
 			System.out.print("\nOS-CLI | " + pwd + ">");
@@ -19,11 +18,14 @@ public class App {
 					continue;
 
 				String input = scan.nextLine();
-				Stack<Node> tree = Parser.parse(input);
-				Iterator<Node> it = tree.iterator();
-				Stack<String> results = new Stack<>();
+
+				if (input.trim().length() == 0)
+					continue;
 
 				Boolean shouldPipe = false;
+				Stack<String> results = new Stack<>();
+				Stack<Node> tree = Parser.parse(input);
+				Iterator<Node> it = tree.iterator();
 
 				while (it.hasNext()) {
 					Node current = it.next();
@@ -95,6 +97,10 @@ public class App {
 								results.push(Terminal.cd(currentParams));
 								break;
 							}
+							case "more": {
+								results.push(Terminal.more(currentParams));
+								break;
+							}
 							default: {
 								throw new Exception("'" + command + "'" + " is not recognized as a command,");
 							}
@@ -125,6 +131,8 @@ public class App {
 					System.out.println(e.getMessage());
 				else
 					System.out.println(e);
+
+				e.printStackTrace();
 			}
 		}
 	}

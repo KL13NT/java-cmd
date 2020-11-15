@@ -200,4 +200,65 @@ public class Terminal {
 		App.pwd = resolvedPath;
 		return "";
 	}
+
+	public static String more(ArrayList<String> args) throws Exception {
+		if (args.size() < 2)
+			throw new Exception("Must supply at least 2 parameter");
+
+		File file = new File(args.get(0));
+
+		if (!file.exists())
+			throw new FileNotFoundException("The system cannot find the file specified.");
+
+		int nLines = Integer.valueOf(args.get(1));
+		String output = "";
+		String input = "";
+
+		Scanner scan = new Scanner(file);
+
+		for (int i = 0; i < nLines; i++) {
+			if (!scan.hasNextLine())
+				break;
+
+			if (scan.hasNextLine()) {
+				String line = scan.nextLine();
+				output += line;
+
+				System.out.println(line);
+			}
+		}
+
+		while (scan.hasNextLine()) {
+			if (App.scan.hasNextLine()) {
+				input = App.scan.nextLine();
+			}
+
+			if (input.equalsIgnoreCase("")) {
+				String line = scan.nextLine();
+				output += line;
+
+				System.out.print(line);
+			}
+
+			else if (input.equalsIgnoreCase("q")) {
+				scan.close();
+				return output;
+			}
+
+			else if (input.equalsIgnoreCase(" ")) {
+				for (int i = 0; i < nLines; i++) {
+					if (!scan.hasNextLine())
+						break;
+
+					String line = scan.nextLine();
+					output += line;
+
+					System.out.println(line);
+				}
+			}
+		}
+
+		scan.close();
+		return output;
+	}
 }

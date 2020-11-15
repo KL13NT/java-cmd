@@ -187,9 +187,6 @@ public class Terminal {
 	}
 
 	public static String cd(ArrayList<String> args) throws IOException {
-		// TODO: Using path objects in cd command by resolving the input path
-		// https://docs.oracle.com/javase/8/docs/api/java/nio/file/Path.html#resolve-java.lang.String-
-
 		Path pwd = Paths.get(App.pwd);
 		Path inputPath = Paths.get(args.get(0));
 		String resolvedPath = pwd.resolve(inputPath).toFile().getCanonicalPath();
@@ -217,15 +214,15 @@ public class Terminal {
 		Scanner scan = new Scanner(file);
 
 		for (int i = 0; i < nLines; i++) {
-			if (!scan.hasNextLine())
-				break;
-
-			if (scan.hasNextLine()) {
-				String line = scan.nextLine();
-				output += line;
-
-				System.out.println(line);
+			if (!scan.hasNextLine()) {
+				scan.close();
+				return output;
 			}
+
+			String line = scan.nextLine();
+			output += line;
+
+			System.out.println(line);
 		}
 
 		while (scan.hasNextLine()) {

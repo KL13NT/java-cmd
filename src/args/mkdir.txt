@@ -1,0 +1,5 @@
+NAME
+       mkdir - make directories
+
+DESCRIPTION
+       Create the DIRECTORY, if it does not already exist.

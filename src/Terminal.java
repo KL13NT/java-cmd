@@ -258,4 +258,54 @@ public class Terminal {
 		scan.close();
 		return output;
 	}
+
+	public static String args(ArrayList<String> args) throws Exception {
+		if (args.size() < 1)
+			throw new Exception("Must provide 1 parameter");
+
+		String cmd = args.get(0);
+
+		File file = new File("./args/" + cmd + ".txt");
+
+		if (!file.exists())
+			throw new Exception("Command help page not found");
+
+		Scanner sc = new Scanner(file);
+
+		String output = "";
+
+		while (sc.hasNextLine())
+			output += sc.nextLine() + "\n";
+
+		sc.close();
+
+		System.out.println(output);
+
+		return output;
+	}
+
+	public static String help(ArrayList<String> args) throws IOException {
+		File file = new File("help.txt");
+
+		System.out.println(file.getCanonicalPath());
+
+		Scanner sc = new Scanner(file);
+
+		String output = "";
+
+		while (sc.hasNextLine())
+			output += sc.nextLine() + "\n";
+
+		sc.close();
+
+		System.out.println(output);
+		return output;
+	}
+
+	public static String clear(ArrayList<String> args) {
+		System.out.println("\r\n".repeat(1000));
+
+		return "";
+	}
+
 }

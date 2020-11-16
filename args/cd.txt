@@ -1,0 +1,9 @@
+NAME
+       cd - change the working directory
+
+SYNOPSIS
+       cd [PATH]...
+
+DESCRIPTION
+       The cd utility shall change the working directory of the current
+       shell execution environment.

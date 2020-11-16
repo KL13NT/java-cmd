@@ -1,0 +1,8 @@
+NAME
+       date - print date
+
+SYNOPSIS
+       date
+
+DESCRIPTION
+       prints the current local system date.

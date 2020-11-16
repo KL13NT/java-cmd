@@ -1,0 +1,8 @@
+NAME
+       rmdir - remove directories
+
+SYNOPSIS
+       rmdir [DIRECTORY]...
+
+DESCRIPTION
+       Remove the DIRECTORY.

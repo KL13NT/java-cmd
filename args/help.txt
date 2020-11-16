@@ -1,0 +1,8 @@
+NAME
+       help - list all commands
+
+SYNOPSIS
+       help
+
+DESCRIPTION
+       lists all commands available.

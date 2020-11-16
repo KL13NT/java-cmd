@@ -1,0 +1,8 @@
+NAME
+       cp - copy files and directories
+
+SYNOPSIS
+       cp [SOURCE] [DESTINATION]
+
+DESCRIPTION
+       Copy SOURCE to DEST

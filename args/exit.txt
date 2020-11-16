@@ -1,0 +1,8 @@
+NAME
+       exit - close the console
+
+SYNOPSIS
+       exit
+
+DESCRIPTION
+       The exit utility shall cause the shell to exit.

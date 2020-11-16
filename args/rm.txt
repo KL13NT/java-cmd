@@ -1,0 +1,8 @@
+NAME
+       rm - removes file
+
+SYNOPSIS
+       rm [FILE]
+
+DESCRIPTION
+       removes FILE from filesystem if it exists.

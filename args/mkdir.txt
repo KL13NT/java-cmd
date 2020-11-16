@@ -1,0 +1,8 @@
+NAME
+       mkdir - make directory
+
+SYNOPSIS
+       ls [PATH]
+
+DESCRIPTION
+       Create the DIRECTORY, if it does not already exist.

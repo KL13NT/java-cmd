@@ -1,0 +1,8 @@
+NAME
+       args - print command help page
+
+SYNOPSIS
+       args [COMMAND]...
+
+DESCRIPTION
+       prints a help page like this one for the specified COMMAND.

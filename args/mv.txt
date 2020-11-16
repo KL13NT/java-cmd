@@ -1,0 +1,8 @@
+NAME
+       mv - moves file
+
+SYNOPSIS
+       ls [SOURCE] [DESTINATION]
+
+DESCRIPTION
+       moves SOURCE to DEST from filesystem if it exists.

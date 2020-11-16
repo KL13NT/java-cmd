@@ -1,3 +1,5 @@
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Scanner;
@@ -56,55 +58,12 @@ public class App {
 							shouldPipe = false;
 						}
 
-						switch (command) {
-							case "ls": {
-								results.push(Terminal.ls(currentParams));
-								break;
-							}
-							case "rm": {
-								results.push(Terminal.rm(currentParams));
-								break;
-							}
-							case "pwd": {
-								results.push(Terminal.pwd(currentParams));
-								break;
-							}
-							case "cat": {
-								results.push(Terminal.cat(currentParams));
-								break;
-							}
-							case "date": {
-								results.push(Terminal.date(currentParams));
-								break;
-							}
-							case "mkdir": {
-								results.push(Terminal.mkdir(currentParams));
-								break;
-							}
-							case "rmdir": {
-								results.push(Terminal.rmdir(currentParams));
-								break;
-							}
-							case "cp": {
-								results.push(Terminal.cp(currentParams));
-								break;
-							}
-							case "mv": {
-								results.push(Terminal.mv(currentParams));
-								break;
-							}
-							case "cd": {
-								results.push(Terminal.cd(currentParams));
-								break;
-							}
-							case "more": {
-								results.push(Terminal.more(currentParams));
-								break;
-							}
-							default: {
-								throw new Exception("'" + command + "'" + " is not recognized as a command,");
-							}
-						}
+						Method method = Terminal.class.getMethod(command, ArrayList.class);
+
+						if (method != null)
+							results.push((String) method.invoke(null, currentParams));
+						else
+							throw new Exception("'" + command + "'" + " is not recognized as a command");
 					}
 
 					if (current.type.equalsIgnoreCase("TOKEN")) {
@@ -127,12 +86,11 @@ public class App {
 					}
 				}
 			} catch (Exception e) {
-				if (e.getMessage() != null)
-					System.out.println(e.getMessage());
-				else
-					System.out.println(e);
+				if (e instanceof InvocationTargetException)
+					System.out.println(((InvocationTargetException) e).getTargetException().getMessage());
 
-				e.printStackTrace();
+				else
+					System.out.println(e.getMessage());
 			}
 		}
 	}

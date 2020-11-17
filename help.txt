@@ -1,15 +1,15 @@
-cd: 				Changes current directory to another one.
-ls: 				List all the directory contents.
-cp: 				Copies file from current directory to another.
-cat: 				Concatenates files and display the content of the file.
-mkdir: 			Creates a new directory.
-rmdir: 			Removes given directory.
-mv: 				Moves current file from the current directory to another one.
-rm: 				Removes given file.
-args: 			List all the given command's arguments.
-date: 			Shows current date/time.
-help: 			List all user commands.
-clear: 			Clear the console.
-pwd: 				Display current user directory.
-more: 			Display the content of a given file with the ability of scrolling down.
-exit: 			Close the console.
+cd                Changes current directory to another one.
+ls                List all the directory contents.
+cp                Copies file from current directory to another.
+cat               Concatenates files and display the content of the file.
+mkdir             Creates a new directory.
+rmdir             Removes given directory.
+mv                Moves current file from the current directory to another one.
+rm                Removes given file.
+args              List all the given command's arguments.
+date              Shows current date/time.
+help              List all user commands.
+clear             Clear the console.
+pwd               Display current user directory.
+more              Display the content of a given file with the ability of scrolling down.
+exit              Close the console.

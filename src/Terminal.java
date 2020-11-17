@@ -42,7 +42,7 @@ public class Terminal {
 		if (args.size() < 1)
 			throw new Exception("Must supply at least 1 parameter");
 
-		File file = new File(App.pwd, args.get(0));
+		File file = new File(Paths.get(App.pwd).resolve(args.get(0)).toString());
 
 		if (!file.exists())
 			throw new FileNotFoundException("The system cannot find the file specified.");
@@ -100,20 +100,22 @@ public class Terminal {
 		if (args.size() < 1)
 			throw new Exception("Must supply at least 1 parameter");
 
-		File Parentdir = new File(App.pwd, args.get(0));
+		File Parentdir = new File(Paths.get(App.pwd).resolve(args.get(0)).toString());
 
 		if (Parentdir.exists())
 			throw new FileAlreadyExistsException("File already exist with same name");
 
-		Parentdir.mkdir();
-		return "";
+		if (Parentdir.mkdir())
+			return "";
+		else
+			throw new IOException("Failed to create directory");
 	}
 
 	public static String rmdir(ArrayList<String> args) throws Exception {
 		if (args.size() < 1)
 			throw new Exception("Must supply at least 1 parameter");
 
-		File file = new File(App.pwd, args.get(0));
+		File file = new File(Paths.get(App.pwd).resolve(args.get(0)).toString());
 
 		if (!file.exists())
 			throw new FileNotFoundException("The system cannot find the directory specified.");
@@ -129,29 +131,32 @@ public class Terminal {
 		return "";
 	}
 
-	public static String cp(ArrayList<String> params) throws IOException {
+	public static String cp(ArrayList<String> params) throws Exception {
+		if (params.size() < 2)
+			throw new Exception("Must provide at least 2 parameters");
+
 		String sourcePath = params.get(0);
 		String destinationPath = params.get(1);
 
 		if (!Files.exists(Paths.get(sourcePath)))
 			throw new FileNotFoundException("Source file not found");
 
-		File sourceFile = new File(App.pwd, sourcePath);
-		File destFile = new File(App.pwd, destinationPath);
+		File sourceFile = new File(Paths.get(App.pwd).resolve(sourcePath).toString());
+		File destFile = new File(Paths.get(App.pwd).resolve(destinationPath).toString());
 
 		copy(sourceFile, destFile);
 		return "";
 	}
 
 	public static String mv(ArrayList<String> args) throws IOException {
-		String sourcePath = args.get(0);
-		String destinationPath = args.get(1);
+		String sourcePath = Paths.get(App.pwd).resolve(args.get(0)).toString();
+		String destinationPath = Paths.get(App.pwd).resolve(args.get(1)).toString();
 
 		if (!Files.exists(Paths.get(sourcePath)))
 			throw new FileNotFoundException("Source file not found");
 
-		File sourceFile = new File(App.pwd, sourcePath);
-		File destFile = new File(App.pwd, destinationPath);
+		File sourceFile = new File(sourcePath);
+		File destFile = new File(destinationPath);
 
 		move(sourceFile, destFile);
 		return "";
@@ -311,7 +316,7 @@ public class Terminal {
 	}
 
 	public static String clear(ArrayList<String> args) {
-		System.out.println("\r\n".repeat(1000));
+		System.out.println("\r\n".repeat(5000));
 
 		return "";
 	}

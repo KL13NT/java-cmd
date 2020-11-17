@@ -69,9 +69,6 @@ public class App {
 					if (current.type.equalsIgnoreCase("TOKEN")) {
 						String token = current.val;
 
-						System.out.println(results);
-						System.out.println(tree);
-
 						if (token.equals("|")) {
 							shouldPipe = true;
 						} else if (token.equals(">")) {

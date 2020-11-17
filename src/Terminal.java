@@ -5,6 +5,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.nio.file.DirectoryNotEmptyException;
 import java.nio.file.FileAlreadyExistsException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -41,12 +42,13 @@ public class Terminal {
 		if (args.size() < 1)
 			throw new Exception("Must supply at least 1 parameter");
 
-		File file = new File(args.get(0));
+		File file = new File(App.pwd, args.get(0));
 
 		if (!file.exists())
 			throw new FileNotFoundException("The system cannot find the file specified.");
 
-		file.delete();
+		if (!file.delete())
+			throw new IOException("The system cannot find the file specified.");
 
 		return "";
 	}
@@ -66,7 +68,7 @@ public class Terminal {
 		Scanner scan = null;
 
 		for (int i = 0; i < args.size(); i++) {
-			file = new File(args.get(i));
+			file = new File(App.pwd, args.get(i));
 
 			if (!file.exists())
 				throw new FileNotFoundException("The system cannot find the file specified.");
@@ -114,7 +116,13 @@ public class Terminal {
 		File file = new File(App.pwd, args.get(0));
 
 		if (!file.exists())
-			throw new FileNotFoundException("The system cannot find the file specified.");
+			throw new FileNotFoundException("The system cannot find the directory specified.");
+
+		if (!file.isDirectory())
+			throw new FileNotFoundException("The system cannot find the directory specified.");
+
+		if (file.list().length > 0)
+			throw new DirectoryNotEmptyException("The directory is not empty.");
 
 		file.delete();
 
@@ -128,8 +136,8 @@ public class Terminal {
 		if (!Files.exists(Paths.get(sourcePath)))
 			throw new FileNotFoundException("Source file not found");
 
-		File sourceFile = new File(sourcePath);
-		File destFile = new File(destinationPath);
+		File sourceFile = new File(App.pwd, sourcePath);
+		File destFile = new File(App.pwd, destinationPath);
 
 		copy(sourceFile, destFile);
 		return "";
@@ -142,8 +150,8 @@ public class Terminal {
 		if (!Files.exists(Paths.get(sourcePath)))
 			throw new FileNotFoundException("Source file not found");
 
-		File sourceFile = new File(sourcePath);
-		File destFile = new File(destinationPath);
+		File sourceFile = new File(App.pwd, sourcePath);
+		File destFile = new File(App.pwd, destinationPath);
 
 		move(sourceFile, destFile);
 		return "";
@@ -202,7 +210,7 @@ public class Terminal {
 		if (args.size() < 2)
 			throw new Exception("Must supply at least 2 parameter");
 
-		File file = new File(args.get(0));
+		File file = new File(App.pwd, args.get(0));
 
 		if (!file.exists())
 			throw new FileNotFoundException("The system cannot find the file specified.");
